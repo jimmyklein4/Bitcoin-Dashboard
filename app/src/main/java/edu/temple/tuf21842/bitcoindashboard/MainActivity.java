@@ -28,7 +28,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mTitle = mDrawerTitle = getTitle();
 
+        //Set the initial fragment
+        PriceFragment priceFragment = new PriceFragment();
+        getFragmentManager().beginTransaction()
+                .add(R.id.content_frame, priceFragment)
+                .commit();
 
+        //Drawer init
         mTitles = getResources().getStringArray(R.array.options_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
