@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
         mTitle = mDrawerTitle = getTitle();
 
 
-        mTitles = getResources().getStringArray(R.array.planets_array);
+        mTitles = getResources().getStringArray(R.array.options_array);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 

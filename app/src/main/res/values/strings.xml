@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Bitcoin Dashboard</string>
-    <string-array name="planets_array">
+    <string-array name="options_array">
         <item>Price</item>
         <item>Block Info</item>
         <item>Balance</item>
