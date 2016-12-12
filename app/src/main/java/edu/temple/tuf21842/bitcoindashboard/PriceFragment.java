@@ -8,6 +8,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,18 +23,23 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import lecho.lib.hellocharts.formatter.AxisValueFormatter;
 import lecho.lib.hellocharts.formatter.SimpleAxisValueFormatter;
 import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.util.ChartUtils;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class PriceFragment extends Fragment {
@@ -128,32 +134,32 @@ public class PriceFragment extends Fragment {
     private Handler chartHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message message) {
-            //In most cased you can call data model methods in builder-pattern-like manner.
             if(chartData.size()!=0) {
                 Line line = new Line(chartData).setColor(Color.BLUE);
-                line.setHasPoints(true);
-                line.setFilled(false);
-                line.setStrokeWidth(5);
-
-
-                //In most cased you can call data model methods in builder-pattern-like manner.
-                //Line valuesline = new Line(values).setColor(Color.BLUE).setCubic(true);
+                line.setHasPoints(false);
+                line.setStrokeWidth(1);
 
                 List<Line> lines = new ArrayList<>();
                 lines.add(line);
-                //lines.add(valuesline);
                 LineChartData data = new LineChartData(lines);
-                Axis distanceAxis = new Axis();
-                distanceAxis.setName("Distance");
-                distanceAxis.setTextColor(ChartUtils.COLOR_ORANGE);
+
+                List<AxisValue> timeValue = new ArrayList<>();
+                for(int i=0;i<chartData.size();i++){
+                    double time = chartData.get(i).getX();
+                    Date date = new Date((long)time*1000);
+                    String formattedRecordedAt = new SimpleDateFormat("MMM dd").format(date);
+                    AxisValue axisValue = new AxisValue((float)time);
+                    axisValue.setLabel(formattedRecordedAt);
+                    timeValue.add(axisValue);
+                }
+                Axis distanceAxis = new Axis(timeValue);
+                distanceAxis.setName("Date");
                 distanceAxis.setMaxLabelChars(4);
                 distanceAxis.setHasLines(true);
-                distanceAxis.setHasTiltedLabels(true);
                 data.setAxisXBottom(distanceAxis);
 
                 Axis amountAxis = new Axis();
-                amountAxis.setName("Amount");
-                amountAxis.setTextColor(ChartUtils.COLOR_ORANGE);
+                amountAxis.setName("Value");
                 amountAxis.setMaxLabelChars(4);
                 amountAxis.setHasLines(true);
                 amountAxis.setHasTiltedLabels(true);
@@ -162,12 +168,7 @@ public class PriceFragment extends Fragment {
 
 
                 chart.setLineChartData(data);
-
-                //Viewport v = chart.getMaximumViewport();
-                //v.set(v.left, 1478563200, v.right, 1481414400);
-                //chart.setMaximumViewport(v);
-                //chart.setCurrentViewport(v);
-                //chart.setInteractive(true);
+                chart.setInteractive(false);
 
             }
             return false;
