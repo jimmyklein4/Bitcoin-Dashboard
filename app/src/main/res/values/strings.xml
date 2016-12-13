@@ -8,4 +8,14 @@
     <string name="current_price_in">Current Bitcoin Price in USD</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="enter_block">Enter Block Height or Hash</string>
+    <string name="block_number">Block Number </string>
+    <string name="hash">Hash </string>
+    <string name="previous_block">Previous Block </string>
+    <string name="next_block">Next Block </string>
+    <string name="block_time">Time: </string>
+    <string name="block_difficulty">Difficulty </string>
+    <string name="block_bits">Bits: </string>
+    <string name="number_of_transactions">Number of Transactions:  </string>
+    <string name="block_error">An error has occurred in retrieving the block</string>
 </resources>
